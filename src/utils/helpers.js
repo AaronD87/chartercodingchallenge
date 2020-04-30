@@ -56,5 +56,5 @@ export const genresArray = (restaurantData, setGenres) => {
   const newGenres = [].concat.apply([], [...genres]);
   const genreSet = new Set(newGenres);
   const filteredGenres = [...genreSet];
-  setGenres(filteredGenres);
+  setGenres(filteredGenres.sort());
 }
