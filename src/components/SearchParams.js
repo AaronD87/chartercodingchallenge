@@ -46,7 +46,7 @@ const SearchParams = () => {
       <form onSubmit={(e) => {
         e.preventDefault();
         setCurrentPage(1);
-        fetchSearchedRestaurants(setRestaurants, setLoading, searchTerm, genre);
+        fetchSearchedRestaurants(setRestaurants, setLoading, searchTerm, genre, state);
       }}>
         <label htmlFor="search">
           Search

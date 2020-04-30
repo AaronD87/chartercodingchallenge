@@ -14,7 +14,7 @@ export async function fetchRestaurantData(setRestaurantData, setLoading) {
   setLoading(false);
 }
 
-export async function fetchSearchedRestaurants(setRestaurants, setLoading, searchTerm, genre) {
+export async function fetchSearchedRestaurants(setRestaurants, setLoading, searchTerm, genre, state) {
   setLoading(true);
   const result = await axios({
     url: 'https://code-challenge.spectrumtoolbox.com/api/restaurants',
