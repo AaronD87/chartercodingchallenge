@@ -32,6 +32,7 @@ const SearchParams = () => {
   }, [searchTerm])
 
   //pagination error with genre but no search term ... genre but no search term yields strange results
+  //
 
   const indexOfLastRestaurant = currentPage * itemsPerPage;
   const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
