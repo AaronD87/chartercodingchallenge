@@ -36,10 +36,6 @@ const SearchParams = () => {
   const searchedRestaurants = restaurants.length === 0 ? currentRestaurants : restaurants;
   const totalRestaurants = restaurants.length === 0 || searchTerm === "" ? restaurantData.length : restaurants.length
 
-  console.log(restaurants)
-
-  console.log(indexOfFirstRestaurant, indexOfLastRestaurant)
-
   // Change page
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
