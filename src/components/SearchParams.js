@@ -27,14 +27,16 @@ const SearchParams = () => {
   useEffect(() => {
     if (searchTerm === "") {
       setRestaurants([])
+      setCurrentPage(1)
     }
   }, [searchTerm])
 
   const indexOfLastRestaurant = currentPage * itemsPerPage;
   const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
   const currentRestaurants = restaurants.length === 0 ? restaurantData.slice(indexOfFirstRestaurant, indexOfLastRestaurant) : restaurants.slice(indexOfFirstRestaurant, indexOfLastRestaurant);
-  const searchedRestaurants = restaurants.length === 0 ? currentRestaurants : restaurants;
   const totalRestaurants = restaurants.length === 0 || searchTerm === "" ? restaurantData.length : restaurants.length
+
+  console.log(totalRestaurants)
 
   // Change page
   const paginate = pageNumber => setCurrentPage(pageNumber);
@@ -58,7 +60,7 @@ const SearchParams = () => {
         <StateDropdown />
         <button>Submit</button>
       </form>
-      { restaurantData && <Restaurants restaurants={searchedRestaurants} loading={loading} search={searchTerm} />}
+      { restaurantData && <Restaurants restaurants={currentRestaurants} loading={loading} search={searchTerm} />}
       <Pagination
         restaurantsPerPage={itemsPerPage}
         totalRestaurants={totalRestaurants}
