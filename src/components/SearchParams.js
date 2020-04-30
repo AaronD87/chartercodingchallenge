@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchRestaurantData } from '../utils/asyncHelpers';
+import { fetchRestaurantData, fetchSearchedRestaurants } from '../utils/asyncHelpers';
 import useDropdown from './useDropdown';
 import Pagination from './Pagination';
 import { genresArray, states } from '../utils/helpers'; 
@@ -7,6 +7,7 @@ import Restaurants from './Restaurants';
 
 const SearchParams = () => {
   const [restaurantData, setRestaurantData] = useState([]);
+  const [restaurants, setRestaurants] = useState([]);
   const [genres, setGenres] = useState([]);
   const [loading, setLoading] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -23,9 +24,19 @@ const SearchParams = () => {
     genresArray(restaurantData, setGenres);
   }, [restaurantData]);
 
+  useEffect(() => {
+    if (searchTerm === "") {
+      setRestaurants([])
+    }
+  }, [searchTerm])
+
   const indexOfLastRestaurant = currentPage * itemsPerPage;
   const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
-  const currentRestaurants = restaurantData.slice(indexOfFirstRestaurant, indexOfLastRestaurant);
+  const currentRestaurants = restaurants.length === 0 ? restaurantData.slice(indexOfFirstRestaurant, indexOfLastRestaurant) : restaurants.slice(indexOfFirstRestaurant, indexOfLastRestaurant);
+  const searchedRestaurants = restaurants.length === 0 ? currentRestaurants : restaurants;
+  const totalRestaurants = restaurants.length === 0 || searchTerm === "" ? restaurantData.length : restaurants.length
+
+  console.log(restaurants)
 
   console.log(indexOfFirstRestaurant, indexOfLastRestaurant)
 
@@ -36,7 +47,7 @@ const SearchParams = () => {
     <div className="search-params">
       <form onSubmit={(e) => {
         e.preventDefault();
-        fetchRestaurantData(setRestaurantData, setLoading);
+        fetchSearchedRestaurants(setRestaurants, setLoading, searchTerm);
       }}>
         <label htmlFor="search">
           Search
@@ -51,10 +62,10 @@ const SearchParams = () => {
         <StateDropdown />
         <button>Submit</button>
       </form>
-      { restaurantData && <Restaurants restaurants={currentRestaurants} loading={loading} />}
+      { restaurantData && <Restaurants restaurants={searchedRestaurants} loading={loading} search={searchTerm} />}
       <Pagination
         restaurantsPerPage={itemsPerPage}
-        totalRestaurants={restaurantData.length}
+        totalRestaurants={totalRestaurants}
         paginate={paginate}
       />
 
