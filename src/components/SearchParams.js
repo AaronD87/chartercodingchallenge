@@ -31,21 +31,21 @@ const SearchParams = () => {
     }
   }, [searchTerm])
 
+  //pagination error with genre but no search term ... genre but no search term yields strange results
+
   const indexOfLastRestaurant = currentPage * itemsPerPage;
   const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
   const currentRestaurants = restaurants.length === 0 ? restaurantData.slice(indexOfFirstRestaurant, indexOfLastRestaurant) : restaurants.slice(indexOfFirstRestaurant, indexOfLastRestaurant);
   const totalRestaurants = restaurants.length === 0 || searchTerm === "" ? restaurantData.length : restaurants.length
 
-  console.log(totalRestaurants)
-
-  // Change page
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
   return (
     <div className="search-params">
       <form onSubmit={(e) => {
         e.preventDefault();
-        fetchSearchedRestaurants(setRestaurants, setLoading, searchTerm);
+        setCurrentPage(1);
+        fetchSearchedRestaurants(setRestaurants, setLoading, searchTerm, genre);
       }}>
         <label htmlFor="search">
           Search
