@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchRestaurantData, fetchSearchedRestaurants } from '../utils/asyncHelpers';
 import useDropdown from './useDropdown';
 import Pagination from './Pagination';
-import { genresArray, states } from '../utils/helpers'; 
+import { genresArray, states, stateNames } from '../utils/helpers'; 
 import Restaurants from './Restaurants';
 
 const SearchParams = () => {
@@ -12,12 +12,12 @@ const SearchParams = () => {
   const [loading, setLoading] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [genre, GenreDropdown] = useDropdown("Genres", "All", genres);
-  const [state, StateDropdown] = useDropdown("States", "All", states);
+  const [stateData, StateDropdown] = useDropdown("States", "All", stateNames);
   const [itemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    fetchRestaurantData(setRestaurantData, setLoading);
+    fetchRestaurantData(setRestaurantData, setLoading, setRestaurants);
   }, []);
 
   useEffect(() => {
@@ -26,18 +26,14 @@ const SearchParams = () => {
 
   useEffect(() => {
     if (searchTerm === "") {
-      setRestaurants([])
       setCurrentPage(1)
     }
   }, [searchTerm])
 
-  //pagination error with genre but no search term ... genre but no search term yields strange results
-  //
-
   const indexOfLastRestaurant = currentPage * itemsPerPage;
   const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
-  const currentRestaurants = restaurants.length === 0 ? restaurantData.slice(indexOfFirstRestaurant, indexOfLastRestaurant) : restaurants.slice(indexOfFirstRestaurant, indexOfLastRestaurant);
-  const totalRestaurants = restaurants.length === 0 || searchTerm === "" ? restaurantData.length : restaurants.length
+  const currentRestaurants = restaurants.slice(indexOfFirstRestaurant, indexOfLastRestaurant);
+  const totalRestaurants = restaurants.length
 
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
@@ -46,7 +42,7 @@ const SearchParams = () => {
       <form onSubmit={(e) => {
         e.preventDefault();
         setCurrentPage(1);
-        fetchSearchedRestaurants(setRestaurants, setLoading, searchTerm, genre, state);
+        fetchSearchedRestaurants(setRestaurants, setLoading, searchTerm, genre, stateData, states);
       }}>
         <label htmlFor="search">
           Search
