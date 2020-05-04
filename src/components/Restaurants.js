@@ -19,7 +19,7 @@ const Restaurants = ({ restaurants, loading }) => {
           </tr>
         </thead>
         <tbody>
-            {restaurants.sort(function(a, b){
+            {restaurants.length > 0 ? restaurants.sort(function(a, b){
                 if(a.name < b.name) { return -1; }
                 if(a.name > b.name) { return 1; }
                 return 0;
@@ -28,7 +28,7 @@ const Restaurants = ({ restaurants, loading }) => {
                 key={restaurant.id}
                 restaurantInformation={restaurant}
               />
-            )}
+            ) : <tr><td align="center" colspan="4">No available Restaurants.</td></tr>}
         </tbody>
       </table>
     </div>
