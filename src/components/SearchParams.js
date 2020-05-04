@@ -57,7 +57,7 @@ const SearchParams = () => {
         <StateDropdown />
         <button>Submit</button>
       </form>
-      { restaurantData && <Restaurants restaurants={currentRestaurants} loading={loading} search={searchTerm} />}
+      <Restaurants restaurants={currentRestaurants} loading={loading}/>
       <Pagination
         restaurantsPerPage={itemsPerPage}
         totalRestaurants={totalRestaurants}

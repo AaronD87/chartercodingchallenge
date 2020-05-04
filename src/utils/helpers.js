@@ -53,7 +53,7 @@ export const states = [{'Alabama': 'AL'},
 
 export const stateNames = states.map((_,i) => Object.keys(states[i]));
 
-export const stateAbbreviations = states.map((_,i) => Object.values(states[i]));
+// export const stateAbbreviations = states.map((_,i) => Object.values(states[i]));
 
 export const genresArray = (restaurantData, setGenres) => {
   const genres = restaurantData.map(({ genre }) => genre.split(","));
