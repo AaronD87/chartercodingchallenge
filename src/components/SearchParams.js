@@ -27,12 +27,15 @@ const SearchParams = () => {
   useEffect(() => {
     if (searchTerm === "") {
       setCurrentPage(1)
+      setRestaurants(restaurantData);
     }
-  }, [searchTerm])
+    
+  }, [searchTerm,restaurantData])
 
   const indexOfLastRestaurant = currentPage * itemsPerPage;
   const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
   const currentRestaurants = restaurants.slice(indexOfFirstRestaurant, indexOfLastRestaurant);
+
   const totalRestaurants = restaurants.length
 
   const paginate = pageNumber => setCurrentPage(pageNumber);
@@ -55,13 +58,14 @@ const SearchParams = () => {
         </label>
         <GenreDropdown />
         <StateDropdown />
-        <button>Submit</button>
+        <button className="submit">Submit</button>
       </form>
       <Restaurants restaurants={currentRestaurants} loading={loading}/>
       <Pagination
         restaurantsPerPage={itemsPerPage}
         totalRestaurants={totalRestaurants}
         paginate={paginate}
+        currentPage={currentPage}
       />
 
     </div>
